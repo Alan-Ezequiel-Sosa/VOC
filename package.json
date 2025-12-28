@@ -1,11 +1,12 @@
 {
-  "name": "mi-webhook",
+  "name": "webhook-whatsapp",
   "version": "1.0.0",
-  "main": "index.js",
-  "dependencies": {
-    "express": "^4.18.2"
-  },
+  "description": "Webhook para WhatsApp",
+  "main": "app.js",
   "scripts": {
     "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }

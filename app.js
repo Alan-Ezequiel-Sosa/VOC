@@ -1,40 +1,31 @@
-// Import Express.js
 const express = require('express');
-
-// Create an Express app
 const app = express();
-
-// Middleware to parse JSON bodies
 app.use(express.json());
 
-// Set port and verify_token
-const port = process.env.PORT || 3000;
-const verifyToken = process.env.VERIFY_TOKEN;
-
-// Route for GET requests
+// 1. RUTA DE VERIFICACIÓN (Para el formulario de Facebook)
 app.get('/webhook', (req, res) => {
+    // El "Verify Token" que tú eliges (puedes cambiarlo, pero recuérdalo)
+    const VERIFY_TOKEN = "mi_token_secreto_123";
+
     const mode = req.query['hub.mode'];
     const token = req.query['hub.verify_token'];
     const challenge = req.query['hub.challenge'];
 
-    // "mi_token_secreto" debe ser el mismo que pongas en el dashboard de Meta
-    if (mode === 'subscribe' && token === 'vocvoc') {
-        console.log('WEBHOOK_VERIFIED');
-        res.status(200).send(challenge); // Es vital devolver el 'challenge'
-    } else {
-        res.sendStatus(403);
+    if (mode && token) {
+        if (mode === 'subscribe' && token === VERIFY_TOKEN) {
+            console.log('WEBHOOK_VERIFICADO');
+            res.status(200).send(challenge);
+        } else {
+            res.sendStatus(403);
+        }
     }
 });
 
-// Route for POST requests
-app.post('/', (req, res) => {
-  const timestamp = new Date().toISOString().replace('T', ' ').slice(0, 19);
-  console.log(`\n\nWebhook received ${timestamp}\n`);
-  console.log(JSON.stringify(req.body, null, 2));
-  res.status(200).end();
+// 2. RUTA PARA RECIBIR MENSAJES (Cuando alguien te escriba)
+app.post('/webhook', (req, res) => {
+    console.log('Mensaje recibido:', JSON.stringify(req.body, null, 2));
+    res.sendStatus(200);
 });
 
-// Start the server
-app.listen(port, () => {
-  console.log(`\nListening on port ${port}\n`);
-});
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor activo en puerto ${PORT}`));
