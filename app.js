@@ -38,9 +38,6 @@ app.post('/webhook', async (req, res) => {
         res.sendStatus(500);
     }
 });
-    console.log('Mensaje recibido:', JSON.stringify(req.body, null, 2));
-    res.sendStatus(200);
-});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor activo en puerto ${PORT}`));
