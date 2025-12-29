@@ -29,7 +29,7 @@ app.post('/webhook', async (req, res) => {
     
     try {
         // PEGA AQUÍ TU PRODUCTION URL DE n8n
-        const n8nUrl = 'TU_PRODUCTION_URL_DE_N8N'; 
+        const n8nUrl = 'http://localhost:5678/webhook/whatsapp-data'; 
         
         await axios.post(n8nUrl, req.body);
         res.sendStatus(200);
@@ -37,7 +37,7 @@ app.post('/webhook', async (req, res) => {
         console.error('Error enviando a n8n:', error);
         res.sendStatus(500);
     }
-}); => {
+});
     console.log('Mensaje recibido:', JSON.stringify(req.body, null, 2));
     res.sendStatus(200);
 });
